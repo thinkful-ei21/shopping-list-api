@@ -5,7 +5,7 @@
 const shoppingList = (function(){
 
   function generateItemElement(item) {
-    let itemTitle = `<span class="shopping-item shopping-item__checked">${item.name}</span>`;
+    let itemTitle = `<form class="js-edit-item"><span class="shopping-item shopping-item__checked">${item.name}</span></form>`;
     if (!item.checked) {
       itemTitle = `
         <form class="js-edit-item">
@@ -77,7 +77,8 @@ const shoppingList = (function(){
   function handleItemCheckClicked() {
     $('.js-shopping-list').on('click', '.js-item-toggle', event => {
       const id = getItemIdFromElement(event.currentTarget);
-      store.findAndToggleChecked(id);
+      let currentCheckedValue = store.findById(id).checked;
+      api.updateItem(id,{checked: !currentCheckedValue},store.findAndUpdate(id,{checked: !currentCheckedValue}));      
       render();
     });
   }
@@ -99,7 +100,8 @@ const shoppingList = (function(){
       event.preventDefault();
       const id = getItemIdFromElement(event.currentTarget);
       const itemName = $(event.currentTarget).find('.shopping-item').val();
-      store.findAndUpdateName(id, itemName);
+      console.log('handleEditShoppingItemSubmit() ' +itemName);
+      api.updateItem(id,{name : itemName},store.findAndUpdate(id, {name : itemName}));
       render();
     });
   }

@@ -24,11 +24,13 @@ const store = (function(){
   };
 
   const findAndUpdate = function(id, newData){   
-    const itemFound =this.items.find(item => {
+    console.log(`findAndUpdate()  id  ${id}  newData ${newData}`);
+    let itemFound = this.items.find(item => {
       if(item.id === id){
         return item;
       }
     });
+    console.log(itemFound);
     Object.assign(itemFound,newData);
   };
 
